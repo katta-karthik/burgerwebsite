@@ -4,82 +4,141 @@ import { X } from 'lucide-react';
 interface AuthModalProps {
   onClose: () => void;
   onLogin: (email: string, password: string) => void;
+  onRegister: (email: string, password: string, name: string) => void;
 }
 
-export default function AuthModal({ onClose, onLogin }: AuthModalProps) {
+export default function AuthModal({ onClose, onLogin, onRegister }: AuthModalProps) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+
     if (isLogin) {
       onLogin(email, password);
     } else {
-      // Handle registration
-      console.log('Register:', { email, password });
+      if (password !== confirmPassword) {
+        setError('Passwords do not match');
+        return;
+      }
+      if (password.length < 6) {
+        setError('Password must be at least 6 characters long');
+        return;
+      }
+      onRegister(email, password, name);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-xl shadow-2xl p-6 md:p-8 w-full max-w-lg transform transition-all">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">{isLogin ? 'Login' : 'Register'}</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-            <X className="h-6 w-6" />
+          <h2 className="text-2xl font-bold text-gray-900">
+            {isLogin ? 'Welcome Back!' : 'Create Account'}
+          </h2>
+          <button 
+            onClick={onClose} 
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <X className="h-5 w-5 text-gray-500" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {!isLogin && (
+            <div className="relative">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
+                placeholder="Enter your full name"
+                required={!isLogin}
+              />
+            </div>
+          )}
+
+          <div className="relative">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Email Address
+            </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
+              placeholder="Enter your email"
               required
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+          <div className="relative">
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Password
+            </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
+              placeholder="Enter your password"
               required
             />
           </div>
 
+          {!isLogin && (
+            <div className="relative">
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500/20 focus:border-red-500 transition-all"
+                placeholder="Confirm your password"
+                required={!isLogin}
+              />
+            </div>
+          )}
+
+          {error && (
+            <div className="p-3 rounded-lg bg-red-50 text-red-500 text-sm font-medium">
+              {error}
+            </div>
+          )}
+
           <button
             type="submit"
-            className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition"
+            className="w-full bg-red-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-red-700 focus:ring-2 focus:ring-red-500/20 transition-all mt-6"
           >
-            {isLogin ? 'Login' : 'Register'}
+            {isLogin ? 'Sign In' : 'Create Account'}
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div className="mt-6 text-center">
           <button
-            onClick={() => setIsLogin(!isLogin)}
-            className="text-sm text-red-600 hover:text-red-700"
+            onClick={() => {
+              setIsLogin(!isLogin);
+              setError('');
+              setEmail('');
+              setPassword('');
+              setConfirmPassword('');
+              setName('');
+            }}
+            className="text-sm text-gray-600 hover:text-red-600 font-medium transition-colors"
           >
-            {isLogin ? 'Need an account? Register' : 'Already have an account? Login'}
+            {isLogin ? 'Need an account? Sign up' : 'Already have an account? Sign in'}
           </button>
         </div>
-
-        {isLogin && (
-          <div className="mt-4 p-4 bg-gray-50 rounded-md">
-            <p className="text-sm text-gray-600">
-              Demo credentials:<br />
-              Email: demo@example.com<br />
-              Password: demo123
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );

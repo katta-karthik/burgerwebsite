@@ -32,26 +32,26 @@ function App() {
   const [reviews, setReviews] = useState<Review[]>([
     {
       id: 1,
-      name: 'John Doe',
+      name: 'karthik',
       image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&h=150&q=80',
       text: 'The burgers at Berger Hut are simply amazing! The flavors are rich, and the ingredients are always fresh.',
       rating: 5,
-      date: '2024-03-10'
+      date: '02-10-2024'
     },
     {
       id: 2,
-      name: 'Jane Smith',
+      name: 'Pravallika',
       image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&h=150&q=80',
       text: 'Berger Hut never disappoints! The quality of their burgers and the friendly service make it a top-notch dining experience.',
-      rating: 5,
-      date: '2024-03-09'
+      rating: 4,
+      date: '27-10-2024'
     }
   ]);
 
   const handleLogin = (email: string, password: string) => {
-    if (email === 'demo@example.com' && password === 'demo123') {
+    if (email === 'karthik@gmail.com' && password === '12345') {
       setIsLoggedIn(true);
-      setCurrentUser({ email, name: 'Demo User' });
+      setCurrentUser({ email, name: 'AnkammaRo' });
       setIsAuthOpen(false);
     }
   };
@@ -79,6 +79,12 @@ function App() {
     setIsReviewOpen(false);
   };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setCurrentUser({ email: '', name: 'Demo User' });
+    setCartItems([]);
+  };
+
   return (
     <div className="relative">
       <Navbar 
@@ -87,6 +93,7 @@ function App() {
         isLoggedIn={isLoggedIn}
         cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)}
         userEmail={currentUser.email}
+        onLogout={handleLogout}
       />
       
       <main>

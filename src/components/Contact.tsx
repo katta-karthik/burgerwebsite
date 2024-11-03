@@ -13,21 +13,21 @@ export default function Contact() {
                 <MapPin className="h-6 w-6 text-red-600 mt-1 mr-4" />
                 <div>
                   <h3 className="font-semibold mb-1">Address</h3>
-                  <p className="text-gray-600">123 Main Street, City, Country</p>
+                  <p className="text-gray-600">Amaravathi Andhra Pradesh India</p>
                 </div>
               </div>
               <div className="flex items-start">
                 <Phone className="h-6 w-6 text-red-600 mt-1 mr-4" />
                 <div>
                   <h3 className="font-semibold mb-1">Phone</h3>
-                  <p className="text-gray-600">+1 234 567 890</p>
+                  <p className="text-gray-600">8008456790</p>
                 </div>
               </div>
               <div className="flex items-start">
                 <Mail className="h-6 w-6 text-red-600 mt-1 mr-4" />
                 <div>
                   <h3 className="font-semibold mb-1">Email</h3>
-                  <p className="text-gray-600">info@bergerhut.com</p>
+                  <p className="text-gray-600">vitap@gmail.com</p>
                 </div>
               </div>
             </div>

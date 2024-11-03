@@ -42,7 +42,7 @@ export default function CartSidebar({ isOpen, onClose, items, onUpdateQuantity }
                   <div key={item.id} className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium">{item.name}</h3>
-                      <p className="text-gray-500">${item.price.toFixed(2)}</p>
+                      <p className="text-gray-500">₹{item.price}</p>
                     </div>
                     
                     <div className="flex items-center space-x-2">
@@ -69,7 +69,7 @@ export default function CartSidebar({ isOpen, onClose, items, onUpdateQuantity }
           <div className="border-t p-4">
             <div className="flex justify-between items-center mb-4">
               <span className="font-semibold">Total</span>
-              <span className="font-semibold">${total.toFixed(2)}</span>
+              <span className="font-semibold">₹{total}</span>
             </div>
             <button
               className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 transition"
